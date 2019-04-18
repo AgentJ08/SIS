@@ -59,8 +59,6 @@ struct Stud
 
 
 
-
-
 int main()
 
 {
@@ -309,13 +307,16 @@ while(another=='y'||another=='Y')
 
     s.cgpa=cgpa;
 
+    fflush(stdin);
+
     printf("\n\n\t Enter total number of classes of SDF held during the sem \n\t");
     scanf("%d",&s.sdf.total);
 
     printf("\n\n\t Enter total number of classes attented during the sem \n\t");
     scanf("%d",&s.sdf.present);
 
-    s.sdf.p=s.sdf.present/s.sdf.total;
+    s.sdf.p=(s.sdf.present)*100;
+    s.sdf.p=s.sdf.p/s.sdf.total;
 
     printf("\n\n\t Enter total number of classes of MATH held during the sem \n\t");
     scanf("%d",&s.math.total);
@@ -323,7 +324,7 @@ while(another=='y'||another=='Y')
     printf("\n\n\t Enter total number of classes attented during the sem \n\t");
     scanf("%d",&s.math.present);
 
-    s.math.p=s.math.present/s.math.total;
+    s.math.p=(s.math.present/s.math.total)*100;
 
     printf("\n\n\t Enter total number of classes of ES held during the sem \n\t");
     scanf("%d",&s.es.total);
@@ -331,7 +332,7 @@ while(another=='y'||another=='Y')
     printf("\n\n\t Enter total number of classes attented during the sem \n\t");
     scanf("%d",&s.es.present);
 
-    s.es.p=s.es.present/s.es.total;
+    s.es.p=(s.es.present/s.es.total)*100;
 
     printf("\n\n\t Enter total number of classes of PHYSICS held during the sem \n\t");
     scanf("%d",&s.physics.total);
@@ -339,7 +340,7 @@ while(another=='y'||another=='Y')
     printf("\n\n\t Enter total number of classes attented during the sem \n\t");
     scanf("%d",&s.physics.present);
 
-    s.physics.p=s.physics.present/s.physics.total;
+    s.physics.p=(s.physics.present/s.physics.total)*100;
 
     fwrite(&s,sizeof(s),1,fp);
 
@@ -573,6 +574,38 @@ if(flag==1)
 
     cgpa=cgpa/8.0;
 
+    printf("\n\n\t Enter total number of classes of SDF held during the sem \n\t");
+    scanf("%d",&s.sdf.total);
+
+    printf("\n\n\t Enter total number of classes attented during the sem \n\t");
+    scanf("%d",&s.sdf.present);
+
+    s.sdf.p=s.sdf.present/s.sdf.total;
+
+    printf("\n\n\t Enter total number of classes of MATH held during the sem \n\t");
+    scanf("%d",&s.math.total);
+
+    printf("\n\n\t Enter total number of classes attented during the sem \n\t");
+    scanf("%d",&s.math.present);
+
+    s.math.p=s.math.present/s.math.total;
+
+    printf("\n\n\t Enter total number of classes of ES held during the sem \n\t");
+    scanf("%d",&s.es.total);
+
+    printf("\n\n\t Enter total number of classes attented during the sem \n\t");
+    scanf("%d",&s.es.present);
+
+    s.es.p=s.es.present/s.es.total;
+
+    printf("\n\n\t Enter total number of classes of PHYSICS held during the sem \n\t");
+    scanf("%d",&s.physics.total);
+
+    printf("\n\n\t Enter total number of classes attented during the sem \n\t");
+    scanf("%d",&s.physics.present);
+
+    s.physics.p=s.physics.present/s.physics.total;
+
 
 
 
@@ -634,6 +667,14 @@ void displayList(FILE * fp)
         printf("\n\n\t\tCGPA : %.2f\n\t",s.cgpa);
 
         printChar('-',65);
+
+        printf("\n\n\t Attendance Status \n\t");
+
+        printf("\n\n\t     SDF = %d out of %d (Percentage = %f ) \n\t",s.sdf.present,s.sdf.total,s.sdf.p);
+        printf("\n\n\t   Maths = %d out of %d (Percentage = %f ) \n\t",s.math.present,s.math.total,s.math.p);
+        printf("\n\n\t      ES = %d out of %d (Percentage = %f ) \n\t",s.es.present,s.es.total,s.es.p);
+        printf("\n\n\t Physics = %d out of %d (Percentage = %f ) \n\t",s.physics.present,s.physics.total,s.physics.p);
+
 
     }
 
@@ -717,6 +758,13 @@ if(flag==1)
 
         printf("\n\n\t\tCGPA : %.2f\n\t",s.cgpa);
 
+        printf("\n\n\t Attendance Status \n\t");
+
+        printf("\n\n\t     SDF = %d out of %d (Percentage = %f ) \n\t",s.sdf.present,s.sdf.total,s.sdf.p);
+        printf("\n\n\t   Maths = %d out of %d (Percentage = %f ) \n\t",s.math.present,s.math.total,s.math.p);
+        printf("\n\n\t      ES = %d out of %d (Percentage = %f ) \n\t",s.es.present,s.es.total,s.es.p);
+        printf("\n\n\t Physics = %d out of %d (Percentage = %f ) \n\t",s.physics.present,s.physics.total,s.physics.p);
+
         printChar('-',65);
 
 
@@ -725,10 +773,6 @@ if(flag==1)
 
 else printf("\n\n\t\t!!!! ERROR RECORD NOT FOUND !!!!");
 
-
-
-
-
 printf("\n\n\t\tWant to enter another search (Y/N)");
 
 fflush(stdin);
@@ -736,7 +780,5 @@ fflush(stdin);
 another=getchar();
 
 }
-
- //testng 123
 
 }
