@@ -1,6 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include<conio.h>
+#include <windows.h>
+#include<string.h>
+#include<ctype.h>
+#include<dos.h>
+#include<time.h>
+#include<stdbool.h>
+void setcolor(int ForgC)
+{
+     WORD wColor;
+     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+     CONSOLE_SCREEN_BUFFER_INFO csbi;
+     if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
+     {
+          wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
+          SetConsoleTextAttribute(hStdOut, wColor);
+     }
+}
+//Displays date and time on the top right corner of the screen
+void date(){
+    time_t t = time(NULL);
+struct tm tm = *localtime(&t);
+
+printf(" \t\t\t\t\t\t\t\t\t\t\tDate:%d-%d-%d \n \t\t\t\t\t\t\t\t\t\t\tTime:%d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec");
+}
 int checkunamesignup(char uname[])
 {
     FILE *p;
@@ -71,6 +95,7 @@ void login()
 }
 int main()
 {
+    setcolor(10);
     int su;
     printf("New user? Press 1 for sign up!\nOr press 2 to login...\n");
     scanf("%d",&su);
