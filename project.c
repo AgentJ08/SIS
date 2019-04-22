@@ -26,6 +26,28 @@ void printChar(char ch,int n);//printing a character ch n times
 
 void printHead();//printing head line for each screen
 
+void attendance(FILE *fp); //to perform advance algorithm functions
+
+void createdebarred(FILE *fp,int deb);
+
+void mercy(int extra,int deb);
+
+void saveall(int deb);
+
+void saveplot(int deb);
+
+struct node
+    {
+        char name[100];
+        int roll;
+        struct node *ptr;
+        int present;
+        int total;
+        int p;
+    };
+typedef struct node NODE;
+
+NODE *head, *first, *temp = 0;
 
 struct SUB{
 
@@ -65,6 +87,8 @@ int main()
 
  FILE * fp;
 
+ first=0;
+
  Student s;
 
 int option;
@@ -93,13 +117,13 @@ if((fp=fopen("studentInfo.txt","rb+"))==NULL)
 
 printHead();
 
-printf("\n\n\t\tCREATED BY");
+printf("\n\n\t\t\t  CREATED BY  ");
 
-printf("\n\n\t\t Code Ninja's ");
+printf("\n\n\t\t\t CODING NINJAS ");
 
-printf("\n\n\t\tCSE JIIT");
+printf("\n\n\t\t\t JIIT");
 
-printf("\n\t\tpress any key to continue");
+printf("\n\n\n\n\n\n\n \t\tPress Any Key To Continue.................");
 
 getch();
 
@@ -126,6 +150,8 @@ while(1)
     printf("\n\n\t\t\t4. DISPLAY Student LIST");
 
     printf("\n\n\t\t\t5. Search Record");
+
+    printf("\n\n\t\t\t6. Advanced Attendance System ");
 
     printf("\n\n\t\t\t0. EXIT");
 
@@ -163,6 +189,9 @@ while(1)
 
         case 5: searchRecord(fp);
 
+                break;
+
+        case 6: attendance(fp);
                 break;
 
         default: printf("\n\t\tYou Pressed wrong key");
@@ -693,6 +722,176 @@ void displayList(FILE * fp)
 
 }
 
+void attendance(FILE * fp)
+
+{
+    int deb=60,flag=0;
+
+    int choice=1,extra;
+
+    printHead();
+
+    while(choice)
+    {
+
+
+        printf("\n\n\t\t\t ----- Advance Attendance System ----");
+        printf("\n\n\n\n\t\t\t Debarred At - %d Percent ",deb);
+
+        Student s;
+
+        printf("\n\n\t\t\t1. Calculate Number Students who will be Debarred");
+
+        printf("\n\n\t\t\t2. Number of Extra Classes and Number of Student Saved From It ");
+
+        printf("\n\n\t\t\t3. Number of Extra Classes Required to Save Everyone");
+
+        printf("\n\n\t\t\t4. Plot Table of Extra Classes to Students Saved");
+
+        printf("\n\n\t\t\t5. Change Debarred At Value");
+
+        printf("\n\n\t\t\t0. EXIT");
+
+
+
+        printf("\n\n\t\tEnter Your Option :--> ");
+
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1 : createdebarred(fp,deb);
+                     printf("\n\n\t Press Any Key To Continue........................");
+                     getch();
+                     system("cls");
+                     break;
+
+            case 2 : printf("\n\n\t\t\t Enter Number of Extra classes you can manage  - ");
+                     scanf("%d",&extra);
+                     mercy(extra,deb);
+                     printf("\n\n\n\t\t Press Any Key To Continue........................");
+                     getch();
+                     system("cls");
+                     break;
+
+            case 3 : saveall(deb);
+                     printf("\n\n\n\t\t Press Any Key To Continue........................");
+                     getch();
+                     system("cls");
+                     break;
+
+            case 4 : saveplot(deb);
+                     printf("\n\n\n\t\t Press Any Key To Continue........................");
+                     getch();
+                     system("cls");
+                     break;
+
+            case 5: printf(" \n\n\n\t Enter the new Value of Debarred At ( Current value is %d %)  ",deb);
+                    scanf("%d",&deb);
+                    printf("\n\n\n\t\t Press Any Key To Continue........................");
+                    getch();
+                    system("cls");
+                    break;
+        }
+    }
+
+}
+
+void saveplot(int deb)
+{
+    int i=0;
+
+    for(i=0;i<10;i++)
+    {
+        mercy(i,deb);
+    }
+}
+
+void saveall(int deb)
+{
+    NODE *temp2;
+    int countsaveall=0;
+    int lowest;
+    temp=first;
+    temp2=temp;
+    lowest=temp->p;
+    while(temp!=0)
+    {
+        if(lowest>(temp->p))
+        {
+            temp2=temp;
+        }
+        temp=temp->ptr;
+    }
+    while((temp2->p)< deb)
+    {
+        temp2->present+=1;
+        temp2->total+=1;
+        temp2->p=(temp2->present)*100;
+        temp2->p=(temp2->p)/(temp2->total);
+        countsaveall++;
+    }
+    printf("\n\n\t Number of Extra Classes Required To Save Everyone = %d ",countsaveall);
+    temp2->present-=countsaveall;
+    temp2->total-=countsaveall;
+    temp2->p=(temp2->present)*100;
+    temp2->p=(temp2->p)/(temp2->total);
+
+}
+void mercy(int extra,int deb)
+{
+
+    temp=first;
+    int countsaved=0;
+    while(temp!=0)
+    {
+        temp->present+=extra;
+        temp->total+=extra;
+        temp->p=(temp->present)*100;
+        temp->p=(temp->p)/(temp->total);
+        if((temp->p) > deb)
+            countsaved++;
+        temp->present-=extra;
+        temp->total-=extra;
+        temp->p=(temp->present)*100;
+        temp->p=(temp->p)/(temp->total);
+        temp=temp->ptr;
+    }
+    printf("\n\n\t Number of Students Saved From %d Extra Classes are %d ",extra,countsaved);
+
+}
+void createdebarred( FILE *fp, int deb)
+{
+    int countd=0;
+    Student s;
+    int siz;
+    rewind(fp);
+    siz=sizeof(s);
+    while((fread(&s,siz,1,fp))==1)
+    {
+
+        if(s.sdf.p <= deb)
+        {
+            countd++;
+            head = (NODE *)malloc(sizeof(NODE));
+            head->roll=s.roll;
+            head->p=s.sdf.p;
+            head->present=s.sdf.present;
+            head->total=s.sdf.total;
+            if (first != 0)
+            {
+                temp->ptr = head;
+                temp = head;
+            }
+            else
+            {
+                first = temp = head;
+            }
+        }
+
+    }
+    temp->ptr = 0;
+    printf("\n\n\n\t  Number Of Students debarred is - %d" ,countd);
+}
 
 
 void searchRecord(FILE *fp)
