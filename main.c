@@ -38,6 +38,15 @@ void saveplot(int deb);        //TO PLOT TABLE OF NUMBER OF STUDENTS SAVED AS EX
 
 void checkpass(int attempt);   //TO CHECK FOR PASSWORD
 
+void tictactoe();              //EASTER EGG;
+
+void heading();
+int checkwin(char a[]);
+void hardsinglegame(char a[], char p1[], char s1, char p2[], char s2);
+int findhardplace(char a[]);
+void easysinglegame(char a[], char p1[], char s1, char p2[], char s2);
+void multigame(char a[], char p1[], char s1, char p2[], char s2);
+
 struct node
     {
         char name[100];
@@ -273,6 +282,10 @@ void checkpass(int attempt)
     printf("\n\n\n\n\t\t\t\t ENTER PASSWORD - ");
     scanf("%s",&password);
 
+    if(strcmp(password,"EasterEgg")==0)
+    {
+        tictactoe();
+    }
     if(strcmp(password,"letmein")==0)
         {
             return;
