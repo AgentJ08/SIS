@@ -1,115 +1,868 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include<conio.h>
-#include <windows.h>
-#include<string.h>
-#include<ctype.h>
-#include<dos.h>
-#include<time.h>
-#include<stdbool.h>
-void setcolor(int ForgC)
-{
-     WORD wColor;
-     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-     CONSOLE_SCREEN_BUFFER_INFO csbi;
-     if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
-     {
-          wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
-          SetConsoleTextAttribute(hStdOut, wColor);
-     }
-}
-//Displays date and time on the top right corner of the screen
-void date(){
-    time_t t = time(NULL);
-struct tm tm = *localtime(&t);
 
-printf(" \t\t\t\t\t\t\t\t\t\t\tDate:%d-%d-%d \n \t\t\t\t\t\t\t\t\t\t\tTime:%d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec");
-}
-int checkunamesignup(char uname[])
+#include <string.h>
+
+#include <stdlib.h>
+
+#include <math.h>
+
+#define Student struct Stud
+
+void add(FILE *fp); //TO ADD NEW STUDENTS TO THE LIST
+
+FILE *del(FILE *fp); //TO DELETE STUDENTS RECORDS
+
+void modify(FILE *fp); //TO MODIFIY A PREVIOUS RECORD
+
+void displayList(FILE *fp); //DISPLAY ALL THE RECORDS
+
+void searchRecord(FILE *fp); //TO SEARCH FOR A SPECIFIC RECORD
+
+void printChar(char ch, int n); //PRINTING A CHAR CH N TIMES //USED FOR HEADINGS
+
+void printHead(); //TO CREATE HEADLINES
+
+void attendance(FILE *fp); //TO PERFORM DIFFERENT FUNCTIONS ON ATTENDANCE
+
+void createdebarred(FILE *fp, int deb); //GENERATES NUMBER OF DEBARRED STUDENTS
+
+void mercy(int extra, int deb); //TO CALCULATE NUMBER OF STUDENTS SAVED FROM SPECIFIC NUMBER OF EXTRA CLASSES
+
+void saveall(int deb); //TO SAVE EBERYONE FROM GETTING DEBARRED
+
+void saveplot(int deb); //TO PLOT TABLE OF NUMBER OF STUDENTS SAVED AS EXTRA CLASSES ARE INCREASED
+
+void checkpass(int attempt); //TO CKECK FOR PASSWORD
+
+struct node
 {
-    FILE *p;
-    p = fopen("users.txt","r");
-    int count=0, uexist=0;
-    char a[1000][30];
-    while(!feof(p))
+    char name[100];
+    int roll;
+    struct node *ptr;
+    int present;
+    int total;
+    int p;
+};
+typedef struct node NODE;
+
+NODE *head, *first, *temp = 0;
+
+struct SUB
+{
+
+    int present;
+
+    int p;
+
+    int total;
+};
+
+struct Stud
+
+{
+
+    char name[100];
+
+    char branch[50];
+
+    int roll;
+
+    float sgpa[8];
+
+    float cgpa;
+
+    struct SUB sdf, math, physics, es;
+};
+
+int main()
+
+{
+
+    FILE *fp;
+
+    first = 0;
+
+    int attempt = 3;
+
+    Student s;
+
+    int option;
+
+    char another;
+
+    if ((fp = fopen("studentInfo.txt", "rb+")) == NULL)
+
     {
-        fscanf(p,"%s",a[count]);
-        if(!strcmp(uname,a[count]))
+
+        if ((fp = fopen("studentInfo.txt", "wb+")) == NULL)
+
         {
-            count=count+2;
-            uexist=1;
+
+            printf("can't open file");
+
+            return 0;
+        }
+    }
+
+    printHead();
+
+    printf("\n\n\t\t\t  CREATED BY  ");
+
+    printf("\n\n\t\t\t CODING NINJAS ");
+
+    printf("\n\n\t\t\t JIIT");
+
+    printf("\n\n\n\n\n\n\n \t\tPress Any Key To Continue.................");
+
+    getch();
+
+    checkpass(attempt);
+
+    while (1)
+
+    {
+
+        printHead();
+
+        printf("\n\t");
+
+        printChar('-', 64);
+
+        printf("\n\n\t\t\t1. ADD Student");
+
+        printf("\n\n\t\t\t2. DELETE Student");
+
+        printf("\n\n\t\t\t3. MODIFY Student");
+
+        printf("\n\n\t\t\t4. DISPLAY Student LIST");
+
+        printf("\n\n\t\t\t5. Search Record");
+
+        printf("\n\n\t\t\t6. Advanced Attendance System ");
+
+        printf("\n\n\t\t\t0. EXIT");
+
+        printf("\n\n\t\tEnter Your Option :--> ");
+
+        scanf("%d", &option);
+
+        switch (option)
+
+        {
+
+        case 0:
+            return 1;
+
+            break;
+
+        case 1:
+            add(fp);
+
+            break;
+
+        case 2:
+            fp = del(fp);
+
+            break;
+
+        case 3:
+            modify(fp);
+
+            break;
+
+        case 4:
+            displayList(fp);
+
+            break;
+
+        case 5:
+            searchRecord(fp);
+
+            break;
+
+        case 6:
+            attendance(fp);
+            break;
+
+        default:
+            printf("\n\t\tYou Pressed wrong key");
+
+            printf("\n\t\tProgram terminated");
+
+            getch();
+
+            exit(0);
+        }
+    }
+
+    return 1;
+}
+
+//----printing character ch at n times ------
+
+void printChar(char ch, int n)
+
+{
+
+    while (n--)
+
+    {
+
+        putchar(ch);
+    }
+}
+
+//-----Printing Head Line of the program -----
+
+void printHead()
+
+{
+    system("cls");
+
+    printf("\n\n\t");
+
+    printChar('=', 16);
+
+    printf("[STUDENT] [INFORMATION] [SYSTEM]");
+
+    printChar('=', 16);
+
+    printf("\n");
+}
+
+//************************PASSWORD CHECK ************************
+
+void checkpass(int attempt)
+{
+    system("cls");
+    char password[10];
+
+    printf("\n\n\t\t\t\t Number of Attempt Left - %d ", attempt);
+    printf("\n\n\n\n\t\t\t\t ENTER PASSWORD - ");
+    scanf("%s", &password);
+    if (strcmp(password, "letmein") == 0)
+    {
+        return;
+    }
+    else
+    {
+        printf("\n\n\t\t\t\t WRONG PASSWORD ");
+        attempt--;
+        if (attempt < 0)
+        {
+            printf("\n\n\n\t\t\t\t EXITING PROGRAMME TOO MANY FAILED ATTEMPT");
+            getch();
+            exit(0);
+        }
+        getch();
+        checkpass(attempt);
+    }
+}
+
+//************************ADDING NEW RECORDS *********************
+
+void add(FILE *fp)
+
+{
+
+    printHead();
+
+    char another = 'y';
+
+    Student s;
+
+    int i;
+
+    float cgpa;
+
+    fseek(fp, 0, SEEK_END);
+
+    while (another == 'y' || another == 'Y')
+
+    {
+
+        printf("\n\n\t\tEnter Full Name of Student\t");
+
+        fflush(stdin);
+
+        fgets(s.name, 100, stdin); //fgets takes an extra \n character as input
+
+        s.name[strlen(s.name) - 1] = '\0';
+
+        printf("\n\n\t\tEnter Branch\t");
+
+        fflush(stdin);
+
+        fgets(s.branch, 50, stdin);
+
+        s.branch[strlen(s.branch) - 1] = '\0';
+
+        printf("\n\n\t\tEnter Roll number \t");
+
+        scanf("%d", &s.roll);
+
+        printf("\n\n\tEnter SGPA for 8 semesters\n\t");
+
+        for (i = 0, cgpa = 0; i < 8; i++)
+
+        {
+            scanf("%f", &s.sgpa[i]);
+            printf("\n\t");
+            cgpa += s.sgpa[i];
+        }
+
+        cgpa /= 8.0;
+
+        s.cgpa = cgpa;
+
+        fflush(stdin);
+
+        printf("\n\n\t Enter total number of classes of SDF held during the semester : ");
+        scanf("%d", &s.sdf.total);
+
+        printf("\n\n\t Enter total number of classes attented during the semester   : ");
+        scanf("%d", &s.sdf.present);
+
+        s.sdf.p = s.sdf.present * 100;
+        s.sdf.p = s.sdf.p / s.sdf.total;
+
+        printf("\n\n\t Enter total number of classes of MATH held during the semester :   ");
+        scanf("%d", &s.math.total);
+
+        printf("\n\n\t Enter total number of classes attented during the semester     :   ");
+        scanf("%d", &s.math.present);
+
+        s.math.p = s.math.present * 100;
+        s.math.p = s.math.p / s.math.total;
+
+        printf("\n\n\t Enter total number of classes of ES held during the semester :  ");
+        scanf("%d", &s.es.total);
+
+        printf("\n\n\t Enter total number of classes attented during the semester   :  ");
+        scanf("%d", &s.es.present);
+
+        s.es.p = s.es.present * 100;
+        s.es.p = s.es.p / s.es.total;
+
+        printf("\n\n\t Enter total number of classes of PHYSICS held during the semester :  ");
+        scanf("%d", &s.physics.total);
+
+        printf("\n\n\t Enter total number of classes attented during the semester        :  ");
+        scanf("%d", &s.physics.present);
+
+        s.physics.p = s.physics.present * 100;
+        s.physics.p = s.physics.p / s.physics.total;
+
+        fwrite(&s, sizeof(s), 1, fp);
+
+        printf("\n\n\t\tWant to enter another student info (Y/N)\t");
+
+        fflush(stdin);
+
+        another = getchar();
+    }
+}
+
+//************************DELETEING A RECORD ************************
+
+FILE *del(FILE *fp)
+
+{
+
+    printHead();
+
+    Student s;
+
+    int flag = 0, tempRoll, siz = sizeof(s);
+
+    FILE *ft;
+
+    if ((ft = fopen("temp.txt", "wb+")) == NULL)
+
+    {
+
+        printf("\n\n\t\t\t\\t!!! ERROR !!!\n\t\t");
+
+        system("pause");
+
+        return fp;
+    }
+
+    printf("\n\n\tEnter Roll number of Student to Delete the Record");
+
+    printf("\n\n\t\t\tRoll No. : ");
+
+    scanf("%d", &tempRoll);
+
+    rewind(fp);
+
+    while ((fread(&s, siz, 1, fp)) == 1)
+
+    {
+
+        if (s.roll == tempRoll)
+
+        {
+            flag = 1;
+
+            printf("\n\tRecord Deleted for");
+
+            printf("\n\n\t\t%s\n\n\t\t%s\n\n\t\t%d\n\t", s.name, s.branch, s.roll);
+
+            continue;
+        }
+
+        fwrite(&s, siz, 1, ft);
+    }
+
+    fclose(fp);
+
+    fclose(ft);
+
+    remove("studentInfo.txt");
+
+    rename("temp.txt", "studentInfo.txt");
+
+    if ((fp = fopen("studentInfo.txt", "rb+")) == NULL)
+
+    {
+
+        printf("ERROR");
+
+        return NULL;
+    }
+
+    if (flag == 0)
+        printf("\n\n\t\t!!!! ERROR RECORD NOT FOUND \n\t");
+
+    printChar('-', 65);
+
+    printf("\n\t");
+
+    system("pause");
+
+    return fp;
+}
+
+//************************ MODIFY A RECORD ************************
+
+void modify(FILE *fp)
+
+{
+
+    printHead();
+
+    Student s;
+
+    int i, flag = 0, tempRoll, siz = sizeof(s);
+
+    float cgpa;
+
+    printf("\n\n\tEnter Roll Number of Student to MODIFY the Record : ");
+
+    scanf("%d", &tempRoll);
+
+    rewind(fp);
+
+    while ((fread(&s, siz, 1, fp)) == 1)
+
+    {
+
+        if (s.roll == tempRoll)
+
+        {
+            flag = 1;
+
             break;
         }
     }
-    return uexist;
-}
-int signup()
-{
-    int checkuname;
-    char uname[30], pass[30];
-    printf("Enter following credentials to signup on SIS:-\n\nEnter your username:\n");
-    scanf("%s",uname);
-    while(checkunamesignup(uname))
+
+    if (flag == 1)
+
     {
-        printf("Username already taken! Please try again...");
-        scanf("%s",uname);
-    }
-    printf("Enter your password:\n");
-    scanf("%s",pass);
-    FILE *p;
-    p = fopen("users.txt","a");
-    fprintf(p,"%s\n%s\n",uname,pass);
-    fclose(p);
-    printf("Thank you for creating an account, %s!", uname);
-    return 1;
-}
-void login()
-{
-    FILE *p;
-    p = fopen("users.txt","r");
-    char uname[30], pass[30];
-    printf("Enter following credentials to login on SIS:-\n\nEnter your username:\n");
-    scanf("%s",uname);
-    printf("Enter your password:\n");
-    scanf("%s",pass);
-    int count=0, uexist=0;
-    char a[1000][30];
-    while(!feof(p))
-    {
-        fscanf(p,"%s",a[count]);
-        if(!strcmp(uname,a[count]))
+
+        fseek(fp, -siz, SEEK_CUR);
+
+        printf("\n\n\t\tRECORD FOUND");
+
+        printf("\n\n\t\tEnter New Data for the Record");
+
+        printf("\n\n\t\tEnter Full Name of Student\t");
+
+        fflush(stdin);
+
+        fgets(s.name, 100, stdin);
+
+        s.name[strlen(s.name) - 1] = '\0';
+
+        printf("\n\n\t\tEnter Branch\t");
+
+        fflush(stdin);
+
+        fgets(s.branch, 50, stdin);
+
+        s.branch[strlen(s.branch) - 1] = '\0';
+
+        printf("\n\n\t\tEnter Roll number \t");
+
+        scanf("%d", &s.roll);
+
+        printf("\n\n\tEnter SGPA for 8 semesters\n\t");
+
+        for (i = 0, cgpa = 0; i < 8; i++)
+
         {
-            count++;
-            fscanf(p,"%s",a[count]);
-            if(!strcmp(pass,a[count]))
+            scanf("%f", &s.sgpa[i]);
+            printf("\n\t");
+            cgpa += s.sgpa[i];
+        }
+
+        cgpa = cgpa / 8.0;
+
+        printf("\n\n\t Enter total number of classes of SDF held during the semester : ");
+        scanf("%d", &s.sdf.total);
+
+        printf("\n\n\t Enter total number of classes attented during the semester   : ");
+        scanf("%d", &s.sdf.present);
+
+        s.sdf.p = s.sdf.present * 100;
+        s.sdf.p = s.sdf.p / s.sdf.total;
+
+        printf("\n\n\t Enter total number of classes of MATH held during the semester :   ");
+        scanf("%d", &s.math.total);
+
+        printf("\n\n\t Enter total number of classes attented during the semester     :   ");
+        scanf("%d", &s.math.present);
+
+        s.math.p = s.math.present * 100;
+        s.math.p = s.math.p / s.math.total;
+
+        printf("\n\n\t Enter total number of classes of ES held during the semester :  ");
+        scanf("%d", &s.es.total);
+
+        printf("\n\n\t Enter total number of classes attented during the semester   :  ");
+        scanf("%d", &s.es.present);
+
+        s.es.p = s.es.present * 100;
+        s.es.p = s.es.p / s.es.total;
+
+        printf("\n\n\t Enter total number of classes of PHYSICS held during the semester :  ");
+        scanf("%d", &s.physics.total);
+
+        printf("\n\n\t Enter total number of classes attented during the semester        :  ");
+        scanf("%d", &s.physics.present);
+
+        s.physics.p = s.physics.present * 100;
+        s.physics.p = s.physics.p / s.physics.total;
+
+        fwrite(&s, sizeof(s), 1, fp);
+    }
+
+    else
+        printf("\n\n\t!!!! ERROR !!!! RECORD NOT FOUND");
+
+    printf("\n\n\t");
+
+    system("pause");
+}
+
+//************************DISPLAY ALL RECORDS ************************
+
+void displayList(FILE *fp)
+
+{
+    printHead();
+
+    Student s;
+
+    int i, siz = sizeof(s);
+
+    rewind(fp);
+
+    while ((fread(&s, siz, 1, fp)) == 1)
+
+    {
+
+        printf("\n\t\tNAME : %s", s.name);
+
+        printf("\n\n\t\tBRANCH : %s", s.branch);
+
+        printf("\n\n\t\tROLL : %d", s.roll);
+
+        printf("\n\n\tSGPA: ");
+
+        for (i = 0; i < 8; i++)
+
+            printf("| %.2f |", s.sgpa[i]);
+
+        printf("\n\n\t\tCGPA : %.2f\n\t", s.cgpa);
+
+        printChar('-', 65);
+
+        printf("\n\n\t Attendance Status \n\t");
+
+        printf("\n\n\t     SDF = %d out of %d (Percentage = %d ) \n\t", s.sdf.present, s.sdf.total, s.sdf.p);
+        printf("\n\n\t   Maths = %d out of %d (Percentage = %d ) \n\t", s.math.present, s.math.total, s.math.p);
+        printf("\n\n\t      ES = %d out of %d (Percentage = %d ) \n\t", s.es.present, s.es.total, s.es.p);
+        printf("\n\n\t Physics = %d out of %d (Percentage = %d ) \n\t", s.physics.present, s.physics.total, s.physics.p);
+    }
+
+    printf("\n\n\n\t");
+
+    printChar('*', 65);
+
+    printf("\n\n\t");
+
+    system("pause");
+}
+//************************ ADFVANCED FUNCTION ON ATTENDANCE ************************
+
+void attendance(FILE *fp)
+
+{
+    int deb = 60, flag = 0;
+
+    int choice = 1, extra;
+
+    printHead();
+
+    while (choice)
+    {
+
+        printf("\n\n\t\t\t ----- Advance Functions Attendance ----");
+        printf("\n\n\n\n\t\t\t Debarred At - %d Percent ", deb);
+
+        Student s;
+
+        printf("\n\n\t\t\t1. Calculate Number Students who will be Debarred");
+
+        printf("\n\n\t\t\t2. Number of Extra Classes and Number of Student Saved From It ");
+
+        printf("\n\n\t\t\t3. Number of Extra Classes Required to Save Everyone");
+
+        printf("\n\n\t\t\t4. Plot Table of Extra Classes to Students Saved");
+
+        printf("\n\n\t\t\t5. Change Debarred At Value");
+
+        printf("\n\n\t\t\t0. EXIT");
+
+        printf("\n\n\t\tEnter Your Option :--> ");
+
+        scanf("%d", &choice);
+        switch (choice)
+        {
+        case 1:
+            createdebarred(fp, deb);
+            printf("\n\n\t Press Any Key To Continue........................");
+            getch();
+            system("cls");
+            break;
+
+        case 2:
+            printf("\n\n\t\t\t Enter Number of Extra classes you can manage  - ");
+            scanf("%d", &extra);
+            mercy(extra, deb);
+            printf("\n\n\n\t\t Press Any Key To Continue........................");
+            getch();
+            system("cls");
+            break;
+
+        case 3:
+            saveall(deb);
+            printf("\n\n\n\t\t Press Any Key To Continue........................");
+            getch();
+            system("cls");
+            break;
+
+        case 4:
+            saveplot(deb);
+            printf("\n\n\n\t\t Press Any Key To Continue........................");
+            getch();
+            system("cls");
+            break;
+
+        case 5:
+            printf(" \n\n\n\t Enter the new Value of Debarred At ( Current value is %d %)  ", deb);
+            scanf("%d", &deb);
+            printf("\n\n\n\t\t Press Any Key To Continue........................");
+            getch();
+            system("cls");
+            break;
+        }
+    }
+}
+
+//************************ PLOTS NUMBER OF STUDENTS SAVED PER CLASS ADDED ************************
+void saveplot(int deb)
+{
+    int i = 0;
+
+    for (i = 0; i < 10; i++)
+    {
+        mercy(i, deb);
+    }
+}
+
+//************************CALCULATE NUMBER OF EXTRA CLASSES REQUIRED TO SAVE EVERYONE ************************
+void saveall(int deb)
+{
+    NODE *temp2;
+    int countsaveall = 0;
+    int lowest;
+    temp = first;
+    temp2 = temp;
+    lowest = temp->p;
+    while (temp != 0)
+    {
+        if (lowest > (temp->p))
+        {
+            temp2 = temp;
+        }
+        temp = temp->ptr;
+    }
+    while ((temp2->p) < deb)
+    {
+        temp2->present += 1;
+        temp2->total += 1;
+        temp2->p = (temp2->present) * 100;
+        temp2->p = (temp2->p) / (temp2->total);
+        countsaveall++;
+    }
+    printf("\n\n\t Number of Extra Classes Required To Save Everyone = %d ", countsaveall);
+    temp2->present -= countsaveall;
+    temp2->total -= countsaveall;
+    temp2->p = (temp2->present) * 100;
+    temp2->p = (temp2->p) / (temp2->total);
+}
+
+//************************ SEE HOW MANY STUDENTS CAN BE SAVED FROM A GIVEN NUMBER OF EXTRA CLASSES ************************
+void mercy(int extra, int deb)
+{
+
+    temp = first;
+    int countsaved = 0;
+    while (temp != 0)
+    {
+        temp->present += extra;
+        temp->total += extra;
+        temp->p = (temp->present) * 100;
+        temp->p = (temp->p) / (temp->total);
+        if ((temp->p) > deb)
+            countsaved++;
+        temp->present -= extra;
+        temp->total -= extra;
+        temp->p = (temp->present) * 100;
+        temp->p = (temp->p) / (temp->total);
+        temp = temp->ptr;
+    }
+    printf("\n\n\t Number of Students Saved From %d Extra Classes are %d ", extra, countsaved);
+}
+void createdebarred(FILE *fp, int deb)
+{
+    int countd = 0;
+    Student s;
+    int siz;
+    rewind(fp);
+    siz = sizeof(s);
+    while ((fread(&s, siz, 1, fp)) == 1)
+    {
+
+        if (s.sdf.p <= deb)
+        {
+            countd++;
+            head = (NODE *)malloc(sizeof(NODE));
+            head->roll = s.roll;
+            head->p = s.sdf.p;
+            head->present = s.sdf.present;
+            head->total = s.sdf.total;
+            if (first != 0)
             {
-                printf("User Exist!");
-                uexist = 1;
-                count++;
+                temp->ptr = head;
+                temp = head;
+            }
+            else
+            {
+                first = temp = head;
+            }
+        }
+    }
+    temp->ptr = 0;
+    printf("\n\n\n\t  Number Of Students debarred is - %d", countd);
+}
+
+//************************ SEARCH FILE RECORD ************************
+
+void searchRecord(FILE *fp)
+
+{
+    printHead();
+
+    int tempRoll, flag, siz, i;
+
+    Student s;
+
+    char another = 'y';
+
+    siz = sizeof(s);
+
+    while (another == 'y' || another == 'Y')
+
+    {
+
+        printf("\n\n\tEnter Roll Number of Student to search the record : ");
+
+        scanf("%d", &tempRoll);
+
+        rewind(fp);
+
+        while ((fread(&s, siz, 1, fp)) == 1)
+
+        {
+
+            if (s.roll == tempRoll)
+
+            {
+                flag = 1;
+
                 break;
             }
         }
-        count++;
-    }
-    if(!uexist) printf("User does not exist in databse!");
-}
-int main()
-{
-    setcolor(10);
-    int su;
-    printf("New user? Press 1 for sign up!\nOr press 2 to login...\n");
-    scanf("%d",&su);
-    if(su==1)
-    {
-        if(signup())
+
+        if (flag == 1)
+
         {
-            system("cls");
-            printf("*Redirecting you to login page...*\n\nEnter your login credentials:-\n\n");
-            //system("cls");
-            login();
+
+            printf("\n\t\tNAME : %s", s.name);
+
+            printf("\n\n\t\tBRANCH : %s", s.branch);
+
+            printf("\n\n\t\tROLL : %d", s.roll);
+
+            printf("\n\n\tSGPA: ");
+
+            for (i = 0; i < 8; i++)
+
+                printf("| %.2f |", s.sgpa[i]);
+
+            printf("\n\n\t\tCGPA : %.2f\n\t", s.cgpa);
+
+            printf("\n\n\t Attendance Status \n\t");
+
+            printf("\n\n\t     SDF = %d out of %d (Percentage = %d ) \n\t", s.sdf.present, s.sdf.total, s.sdf.p);
+            printf("\n\n\t   Maths = %d out of %d (Percentage = %d ) \n\t", s.math.present, s.math.total, s.math.p);
+            printf("\n\n\t      ES = %d out of %d (Percentage = %d ) \n\t", s.es.present, s.es.total, s.es.p);
+            printf("\n\n\t Physics = %d out of %d (Percentage = %d ) \n\t", s.physics.present, s.physics.total, s.physics.p);
+
+            printChar('-', 65);
         }
+
+        else
+            printf("\n\n\t\t!!!! ERROR RECORD NOT FOUND !!!!");
+
+        printf("\n\n\t\tWant to enter another search (Y/N)");
+
+        fflush(stdin);
+
+        another = getchar();
     }
-    else if(su==2) login();
-    else printf("Invalid Entry!\n");
-    return 0;
 }
