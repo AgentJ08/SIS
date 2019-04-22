@@ -340,7 +340,6 @@ void tictactoe()
         else printf("Invalid Entry! Exiting the Game!\n");
     }
     else printf("Invalid Entry! Exiting the Game!\n");
-return 0;
 }
 void heading()
 {
