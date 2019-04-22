@@ -32,7 +32,7 @@ struct SUB{
 
     int present;
 
-    float p;
+    int p;
 
     int total;
 
@@ -293,8 +293,9 @@ while(another=='y'||another=='Y')
 
     for(i=0,cgpa=0;i<8;i++)
 
-    {scanf("\n\n\t %f \n\t",&s.sgpa[i]);
-
+    {
+    scanf("%f",&s.sgpa[i]);
+    printf("\n\t");
     cgpa+=s.sgpa[i];
 
 
@@ -309,38 +310,42 @@ while(another=='y'||another=='Y')
 
     fflush(stdin);
 
-    printf("\n\n\t Enter total number of classes of SDF held during the sem \n\t");
+    printf("\n\n\t Enter total number of classes of SDF held during the semester : ");
     scanf("%d",&s.sdf.total);
 
-    printf("\n\n\t Enter total number of classes attented during the sem \n\t");
+    printf("\n\n\t Enter total number of classes attented during the semester   : ");
     scanf("%d",&s.sdf.present);
 
-    s.sdf.p=(s.sdf.present)*100;
+    s.sdf.p=s.sdf.present*100;
     s.sdf.p=s.sdf.p/s.sdf.total;
 
-    printf("\n\n\t Enter total number of classes of MATH held during the sem \n\t");
+    printf("\n\n\t Enter total number of classes of MATH held during the semester :   ");
     scanf("%d",&s.math.total);
 
-    printf("\n\n\t Enter total number of classes attented during the sem \n\t");
+    printf("\n\n\t Enter total number of classes attented during the semester     :   ");
     scanf("%d",&s.math.present);
 
-    s.math.p=(s.math.present/s.math.total)*100;
+    s.math.p=s.math.present*100;
+    s.math.p=s.math.p/s.math.total;
 
-    printf("\n\n\t Enter total number of classes of ES held during the sem \n\t");
+    printf("\n\n\t Enter total number of classes of ES held during the semester :  ");
     scanf("%d",&s.es.total);
 
-    printf("\n\n\t Enter total number of classes attented during the sem \n\t");
+    printf("\n\n\t Enter total number of classes attented during the semester   :  ");
     scanf("%d",&s.es.present);
 
-    s.es.p=(s.es.present/s.es.total)*100;
+    s.es.p=s.es.present*100;
+    s.es.p=s.es.p/s.es.total;
 
-    printf("\n\n\t Enter total number of classes of PHYSICS held during the sem \n\t");
+    printf("\n\n\t Enter total number of classes of PHYSICS held during the semester :  ");
     scanf("%d",&s.physics.total);
 
-    printf("\n\n\t Enter total number of classes attented during the sem \n\t");
+    printf("\n\n\t Enter total number of classes attented during the semester        :  ");
     scanf("%d",&s.physics.present);
 
-    s.physics.p=(s.physics.present/s.physics.total)*100;
+    s.physics.p=s.physics.present*100;
+    s.physics.p=s.physics.p/s.physics.total;
+
 
     fwrite(&s,sizeof(s),1,fp);
 
@@ -565,7 +570,7 @@ if(flag==1)
     for(i=0,cgpa=0;i<8;i++)
 
     {scanf("%f",&s.sgpa[i]);
-
+    printf("\n\t");
     cgpa+=s.sgpa[i];
 
 
@@ -574,41 +579,41 @@ if(flag==1)
 
     cgpa=cgpa/8.0;
 
-    printf("\n\n\t Enter total number of classes of SDF held during the sem \n\t");
+    printf("\n\n\t Enter total number of classes of SDF held during the semester : ");
     scanf("%d",&s.sdf.total);
 
-    printf("\n\n\t Enter total number of classes attented during the sem \n\t");
+    printf("\n\n\t Enter total number of classes attented during the semester   : ");
     scanf("%d",&s.sdf.present);
 
-    s.sdf.p=s.sdf.present/s.sdf.total;
+    s.sdf.p=s.sdf.present*100;
+    s.sdf.p=s.sdf.p/s.sdf.total;
 
-    printf("\n\n\t Enter total number of classes of MATH held during the sem \n\t");
+    printf("\n\n\t Enter total number of classes of MATH held during the semester :   ");
     scanf("%d",&s.math.total);
 
-    printf("\n\n\t Enter total number of classes attented during the sem \n\t");
+    printf("\n\n\t Enter total number of classes attented during the semester     :   ");
     scanf("%d",&s.math.present);
 
-    s.math.p=s.math.present/s.math.total;
+    s.math.p=s.math.present*100;
+    s.math.p=s.math.p/s.math.total;
 
-    printf("\n\n\t Enter total number of classes of ES held during the sem \n\t");
+    printf("\n\n\t Enter total number of classes of ES held during the semester :  ");
     scanf("%d",&s.es.total);
 
-    printf("\n\n\t Enter total number of classes attented during the sem \n\t");
+    printf("\n\n\t Enter total number of classes attented during the semester   :  ");
     scanf("%d",&s.es.present);
 
-    s.es.p=s.es.present/s.es.total;
+    s.es.p=s.es.present*100;
+    s.es.p=s.es.p/s.es.total;
 
-    printf("\n\n\t Enter total number of classes of PHYSICS held during the sem \n\t");
+    printf("\n\n\t Enter total number of classes of PHYSICS held during the semester :  ");
     scanf("%d",&s.physics.total);
 
-    printf("\n\n\t Enter total number of classes attented during the sem \n\t");
+    printf("\n\n\t Enter total number of classes attented during the semester        :  ");
     scanf("%d",&s.physics.present);
 
-    s.physics.p=s.physics.present/s.physics.total;
-
-
-
-
+    s.physics.p=s.physics.present*100;
+    s.physics.p=s.physics.p/s.physics.total;
 
     fwrite(&s,sizeof(s),1,fp);
 
@@ -670,10 +675,10 @@ void displayList(FILE * fp)
 
         printf("\n\n\t Attendance Status \n\t");
 
-        printf("\n\n\t     SDF = %d out of %d (Percentage = %f ) \n\t",s.sdf.present,s.sdf.total,s.sdf.p);
-        printf("\n\n\t   Maths = %d out of %d (Percentage = %f ) \n\t",s.math.present,s.math.total,s.math.p);
-        printf("\n\n\t      ES = %d out of %d (Percentage = %f ) \n\t",s.es.present,s.es.total,s.es.p);
-        printf("\n\n\t Physics = %d out of %d (Percentage = %f ) \n\t",s.physics.present,s.physics.total,s.physics.p);
+        printf("\n\n\t     SDF = %d out of %d (Percentage = %d ) \n\t",s.sdf.present,s.sdf.total,s.sdf.p);
+        printf("\n\n\t   Maths = %d out of %d (Percentage = %d ) \n\t",s.math.present,s.math.total,s.math.p);
+        printf("\n\n\t      ES = %d out of %d (Percentage = %d ) \n\t",s.es.present,s.es.total,s.es.p);
+        printf("\n\n\t Physics = %d out of %d (Percentage = %d ) \n\t",s.physics.present,s.physics.total,s.physics.p);
 
 
     }
@@ -760,10 +765,10 @@ if(flag==1)
 
         printf("\n\n\t Attendance Status \n\t");
 
-        printf("\n\n\t     SDF = %d out of %d (Percentage = %f ) \n\t",s.sdf.present,s.sdf.total,s.sdf.p);
-        printf("\n\n\t   Maths = %d out of %d (Percentage = %f ) \n\t",s.math.present,s.math.total,s.math.p);
-        printf("\n\n\t      ES = %d out of %d (Percentage = %f ) \n\t",s.es.present,s.es.total,s.es.p);
-        printf("\n\n\t Physics = %d out of %d (Percentage = %f ) \n\t",s.physics.present,s.physics.total,s.physics.p);
+        printf("\n\n\t     SDF = %d out of %d (Percentage = %d ) \n\t",s.sdf.present,s.sdf.total,s.sdf.p);
+        printf("\n\n\t   Maths = %d out of %d (Percentage = %d ) \n\t",s.math.present,s.math.total,s.math.p);
+        printf("\n\n\t      ES = %d out of %d (Percentage = %d ) \n\t",s.es.present,s.es.total,s.es.p);
+        printf("\n\n\t Physics = %d out of %d (Percentage = %d ) \n\t",s.physics.present,s.physics.total,s.physics.p);
 
         printChar('-',65);
 
