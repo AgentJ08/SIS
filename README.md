@@ -8,11 +8,11 @@ With using many data structures like Structures, Linked Lists, etc.
 With all the functionalities of creating, accessing and modifying any student record.
 
 # Work Distribution: 
-Gaurav Yadav (Enrollment No.: 18103131, Github username: yadavgaurav251): Student database functions
+Gaurav Yadav (Enrollment No.: 18103131, Github username: yadavgaurav251): Student Database Functions,Login Function ,Improving Readabilty 
 
-Arpit Maheshwari (Enrollment No.: 18103125, Github username: AgentJ08): Easter Egg, Login function
+Arpit Maheshwari (Enrollment No.: 18103125, Github username: AgentJ08): Easter Egg, Login Function , Team Leading ,Ideas 
 
-Sahil Rastogi (Enrollment No.: 18103146, Github username: SahilR123): Report making, graphics.h implementation
+Sahil Rastogi (Enrollment No.: 18103146, Github username: SahilR123): Report making, Graphics.h Implementation,Debugging,Improving Readabilty 
 
-Pranjay Tiwari (Enrollment No.: 18103140, Github username: Pranjay28): Report making, improvements in Easter Egg
+Pranjay Tiwari (Enrollment No.: 18103140, Github username: Pranjay28): Report making, Improvements in Easter Egg,Debugging, 
 
