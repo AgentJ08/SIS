@@ -150,7 +150,7 @@ int main()
 
         printf("\n\t");
 
-        PrintNTimes('-', 64);
+        PrintNTimes('*', 64);
 
         printf("\n\n\t\t\t1. ADD Student");
 
@@ -245,11 +245,11 @@ void SystemHeading()
 
     printf("\n\n\t");
 
-    PrintNTimes('=', 16);
+    PrintNTimes('*', 16);
 
     printf("[STUDENT] [INFORMATION] [SYSTEM]");
 
-    PrintNTimes('=', 16);
+    PrintNTimes('*', 16);
 
     printf("\n");
 }
@@ -821,7 +821,7 @@ FILE *del(FILE *fp)
     if (flag == 0)
         printf("\n\n\t\t!!!! ERROR RECORD NOT FOUND \n\t");
 
-    PrintNTimes('-', 65);
+    PrintNTimes('*', 65);
 
     printf("\n\t");
 
@@ -983,7 +983,7 @@ void DisplayListOfStudentRecord(FILE *fp)
 
         printf("\n\n\t\tCGPA : %.2f\n\t", s.cgpa);
 
-        PrintNTimes('-', 65);
+        PrintNTimes('*', 65);
 
         printf("\n\n\t Attendance Status \n\t");
 
@@ -1239,7 +1239,7 @@ void SearchStudentRecord(FILE *fp)
             printf("\n\n\t      ES = %d out of %d (Percentage = %d ) \n\t", s.es.present, s.es.total, s.es.p);
             printf("\n\n\t Physics = %d out of %d (Percentage = %d ) \n\t", s.physics.present, s.physics.total, s.physics.p);
 
-            PrintNTimes('-', 65);
+            PrintNTimes('*', 65);
         }
 
         else
