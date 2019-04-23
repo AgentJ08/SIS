@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include<conio.h>
-#include<string.h>
 int checkunamesignup(char uname[])
 {
     FILE *p;
@@ -53,7 +52,7 @@ void login()
     scanf("%s",uname);
     printf("Enter your password:\n");
     scanf("%s",pass);
-    int count=0, uexist=0;
+    int count=0, uexist=0, wrongpass=0;
     char a[1000][30];
     while(!feof(p))
     {
@@ -69,10 +68,11 @@ void login()
                 count++;
                 break;
             }
+            else {printf("Password is not correct. Try again...\n"); wrongpass=1; login(); break;}
         }
-        count++;
+        count=count+2;
     }
-    if(!uexist) printf("User does not exist in databse!");
+    if(!uexist&&!wrongpass) printf("User does not exist in databse!");
 }
 int main()
 {
