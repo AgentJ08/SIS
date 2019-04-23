@@ -6,6 +6,18 @@
 
 #include <math.h>
 
+#include<conio.h>
+
+#include <windows.h>
+
+#include<ctype.h>
+
+#include<dos.h>
+
+#include<time.h>
+
+#include<stdbool.h>
+
 #define Student struct Stud
 
 void AddStudentRecord(FILE *fp); //TO ADD NEW STUDENTS TO THE LIST
@@ -33,6 +45,8 @@ void SaveAll(int deb); //TO SAVE EVERYONE FROM GETTING DEBARRED
 void ExtraclassVsDebarred(int deb); //TO PLOT TABLE OF NUMBER OF STUDENTS SAVED AS EXTRA CLASSES ARE INCREASED
 
 void CheckPassword(int attempt); //TO CHECK FOR PASSWORD
+
+void setcolor(int ForgC);        //TO CHANGE TEXT COLOR
 
 void tictactoe(); //EASTER EGG;
 
@@ -86,6 +100,7 @@ struct Stud
 int main()
 
 {
+    setcolor(11);
 
     FILE *fp;
 
@@ -121,7 +136,7 @@ int main()
 
     printf("\n\n\t\t\t JIIT");
 
-    printf("\n\n\n\n\n\n\n \t\tPress Any Key To Continue.................");
+    printf("\n\n\n\n\n\n\n\t *********************** Press Any Key To Continue **********************");
 
     getch();
 
@@ -237,6 +252,19 @@ void SystemHeading()
     PrintNTimes('=', 16);
 
     printf("\n");
+}
+
+//************************GRAPHICS ******************************
+void setcolor(int ForgC)
+{
+     WORD wColor;
+     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+     CONSOLE_SCREEN_BUFFER_INFO csbi;
+     if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
+     {
+          wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
+          SetConsoleTextAttribute(hStdOut, wColor);
+     }
 }
 
 //************************PASSWORD CHECK ************************
@@ -1011,7 +1039,7 @@ void Attendance(FILE *fp)
         {
         case 1:
             CreateDebarredList(fp, deb);
-            printf("\n\n\t Press Any Key To Continue........................");
+            printf("\n\n\n\t*********************** Press Any Key To Continue **********************");
             getch();
             system("cls");
             break;
@@ -1020,21 +1048,21 @@ void Attendance(FILE *fp)
             printf("\n\n\t\t\t Enter Number of Extra classes you can manage  - ");
             scanf("%d", &extra);
             Mercy(extra, deb);
-            printf("\n\n\n\t\t Press Any Key To Continue........................");
+            printf("\n\n\n\t*********************** Press Any Key To Continue **********************");
             getch();
             system("cls");
             break;
 
         case 3:
             SaveAll(deb);
-            printf("\n\n\n\t\t Press Any Key To Continue........................");
+            printf("\n\n\n\t*********************** Press Any Key To Continue **********************");
             getch();
             system("cls");
             break;
 
         case 4:
             ExtraclassVsDebarred(deb);
-            printf("\n\n\n\t\t Press Any Key To Continue........................");
+            printf("\n\n\n\t*********************** Press Any Key To Continue **********************");
             getch();
             system("cls");
             break;
@@ -1042,7 +1070,7 @@ void Attendance(FILE *fp)
         case 5:
             printf(" \n\n\n\t Enter the new Value of Debarred At ( Current value is %d %)  ", deb);
             scanf("%d", &deb);
-            printf("\n\n\n\t\t Press Any Key To Continue........................");
+            printf("\n\n\n\t*********************** Press Any Key To Continue **********************");
             getch();
             system("cls");
             break;
