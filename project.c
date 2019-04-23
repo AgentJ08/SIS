@@ -1012,3 +1012,4 @@ void setcolor(int ForgC)
 }
 setcolor(10);//this goes in main
 */
+
