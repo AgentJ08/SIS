@@ -8,40 +8,40 @@
 
 #define Student struct Stud
 
-void add(FILE *fp); //TO ADD NEW STUDENTS TO THE LIST
+void AddStudentRecord(FILE *fp); //TO ADD NEW STUDENTS TO THE LIST
 
 FILE *del(FILE *fp); //TO DELETE STUDENTS RECORDS
 
-void modify(FILE *fp); //TO MODIFIY A PREVIOUS RECORD
+void ModifyStudentRecord(FILE *fp); //TO MODIFIY A PREVIOUS RECORD
 
-void displayList(FILE *fp); //DISPLAY ALL THE RECORDS
+void DisplayListOfStudentRecord(FILE *fp); //DISPLAY ALL THE RECORDS
 
-void searchRecord(FILE *fp); //TO SEARCH FOR A SPECIFIC RECORD
+void SearchStudentRecord(FILE *fp); //TO SEARCH FOR A SPECIFIC RECORD
 
-void printChar(char ch, int n); //PRINTING A CHAR CH N TIMES //USED FOR HEADINGS
+void PrintNTimes(char ch, int n); //PRINTING A CHAR CH N TIMES //USED FOR HEADINGS
 
-void printHead(); //TO CREATE HEADLINES
+void SystemHeading(); //TO CREATE HEADLINES
 
-void attendance(FILE *fp); //TO PERFORM DIFFERENT FUNCTIONS ON ATTENDANCE
+void Attendance(FILE *fp); //TO PERFORM DIFFERENT FUNCTIONS ON ATTENDANCE
 
-void createdebarred(FILE *fp, int deb); //GENERATES NUMBER OF DEBARRED STUDENTS
+void CreateDebarredList(FILE *fp, int deb); //GENERATES NUMBER OF DEBARRED STUDENTS
 
-void mercy(int extra, int deb); //TO CALCULATE NUMBER OF STUDENTS SAVED FROM SPECIFIC NUMBER OF EXTRA CLASSES
+void Mercy(int extra, int deb); //TO CALCULATE NUMBER OF STUDENTS SAVED FROM SPECIFIC NUMBER OF EXTRA CLASSES
 
-void saveall(int deb); //TO SAVE EBERYONE FROM GETTING DEBARRED
+void SaveAll(int deb); //TO SAVE EVERYONE FROM GETTING DEBARRED
 
-void saveplot(int deb); //TO PLOT TABLE OF NUMBER OF STUDENTS SAVED AS EXTRA CLASSES ARE INCREASED
+void ExtraclassVsDebarred(int deb); //TO PLOT TABLE OF NUMBER OF STUDENTS SAVED AS EXTRA CLASSES ARE INCREASED
 
-void checkpass(int attempt); //TO CHECK FOR PASSWORD
+void CheckPassword(int attempt); //TO CHECK FOR PASSWORD
 
 void tictactoe(); //EASTER EGG;
 
-void heading();
-int checkwin(char a[]);
-void hardsinglegame(char a[], char p1[], char s1, char p2[], char s2);
-int findhardplace(char a[]);
-void easysinglegame(char a[], char p1[], char s1, char p2[], char s2);
-void multigame(char a[], char p1[], char s1, char p2[], char s2);
+void heading();   //EASTER EGG;
+int checkwin(char a[]);  //EASTER EGG;
+void hardsinglegame(char a[], char p1[], char s1, char p2[], char s2);//EASTER EGG;
+int findhardplace(char a[]); //EASTER EGG;
+void easysinglegame(char a[], char p1[], char s1, char p2[], char s2);//EASTER EGG;
+void multigame(char a[], char p1[], char s1, char p2[], char s2);//EASTER EGG;
 
 struct node
 {
@@ -113,11 +113,11 @@ int main()
         }
     }
 
-    printHead();
+    SystemHeading();
 
     printf("\n\n\t\t\t  CREATED BY  ");
 
-    printf("\n\n\t\t\t CODING NINJAS ");
+    printf("\n\n\t\t\t CODING NINJAS \n\n\t\t\t Gaurav Yadav \n\t\t\t Arpit Maheswari \n\t\t\t Sahil Rastogi \n\t\t\t Pranjay Tiwari");
 
     printf("\n\n\t\t\t JIIT");
 
@@ -125,17 +125,17 @@ int main()
 
     getch();
 
-    checkpass(attempt);
+    CheckPassword(attempt);
 
     while (1)
 
     {
 
-        printHead();
+        SystemHeading();
 
         printf("\n\t");
 
-        printChar('-', 64);
+        PrintNTimes('-', 64);
 
         printf("\n\n\t\t\t1. ADD Student");
 
@@ -165,7 +165,7 @@ int main()
             break;
 
         case 1:
-            add(fp);
+            AddStudentRecord(fp);
 
             break;
 
@@ -175,22 +175,22 @@ int main()
             break;
 
         case 3:
-            modify(fp);
+            ModifyStudentRecord(fp);
 
             break;
 
         case 4:
-            displayList(fp);
+            DisplayListOfStudentRecord(fp);
 
             break;
 
         case 5:
-            searchRecord(fp);
+            SearchStudentRecord(fp);
 
             break;
 
         case 6:
-            attendance(fp);
+            Attendance(fp);
             break;
 
         default:
@@ -209,7 +209,7 @@ int main()
 
 //----printing character ch at n times ------
 
-void printChar(char ch, int n)
+void PrintNTimes(char ch, int n)
 
 {
 
@@ -223,25 +223,25 @@ void printChar(char ch, int n)
 
 //-----Printing Head Line of the program -----
 
-void printHead()
+void SystemHeading()
 
 {
     system("cls");
 
     printf("\n\n\t");
 
-    printChar('=', 16);
+    PrintNTimes('=', 16);
 
     printf("[STUDENT] [INFORMATION] [SYSTEM]");
 
-    printChar('=', 16);
+    PrintNTimes('=', 16);
 
     printf("\n");
 }
 
 //************************PASSWORD CHECK ************************
 
-void checkpass(int attempt)
+void CheckPassword(int attempt)
 {
     system("cls");
     char password[10];
@@ -252,6 +252,7 @@ void checkpass(int attempt)
 
     if (strcmp(password, "EasterEgg") == 0)
     {
+        printf("\n\n\n\n ******************YOU JUST UNLOCKED THE EASTER EGG HAVE FUN PLAYING TICK TACK TOE **************** \n\n ");
         tictactoe();
     }
     if (strcmp(password, "letmein") == 0)
@@ -269,7 +270,7 @@ void checkpass(int attempt)
             exit(0);
         }
         getch();
-        checkpass(attempt);
+        CheckPassword(attempt);
     }
 }
 //***********************EASTER EGG ******************************
@@ -618,11 +619,11 @@ void hardsinglegame(char a[], char p1[], char s1, char p2[], char s2)
 
 //************************ADDING NEW RECORDS *********************
 
-void add(FILE *fp)
+void AddStudentRecord(FILE *fp)
 
 {
 
-    printHead();
+    SystemHeading();
 
     char another = 'y';
 
@@ -726,7 +727,7 @@ FILE *del(FILE *fp)
 
 {
 
-    printHead();
+    SystemHeading();
 
     Student s;
 
@@ -792,7 +793,7 @@ FILE *del(FILE *fp)
     if (flag == 0)
         printf("\n\n\t\t!!!! ERROR RECORD NOT FOUND \n\t");
 
-    printChar('-', 65);
+    PrintNTimes('-', 65);
 
     printf("\n\t");
 
@@ -803,11 +804,11 @@ FILE *del(FILE *fp)
 
 //************************ MODIFY A RECORD ************************
 
-void modify(FILE *fp)
+void ModifyStudentRecord(FILE *fp)
 
 {
 
-    printHead();
+    SystemHeading();
 
     Student s;
 
@@ -925,10 +926,10 @@ void modify(FILE *fp)
 
 //************************DISPLAY ALL RECORDS ************************
 
-void displayList(FILE *fp)
+void DisplayListOfStudentRecord(FILE *fp)
 
 {
-    printHead();
+    SystemHeading();
 
     Student s;
 
@@ -954,7 +955,7 @@ void displayList(FILE *fp)
 
         printf("\n\n\t\tCGPA : %.2f\n\t", s.cgpa);
 
-        printChar('-', 65);
+        PrintNTimes('-', 65);
 
         printf("\n\n\t Attendance Status \n\t");
 
@@ -966,7 +967,7 @@ void displayList(FILE *fp)
 
     printf("\n\n\n\t");
 
-    printChar('*', 65);
+    PrintNTimes('*', 65);
 
     printf("\n\n\t");
 
@@ -974,14 +975,14 @@ void displayList(FILE *fp)
 }
 //************************ ADFVANCED FUNCTION ON ATTENDANCE ************************
 
-void attendance(FILE *fp)
+void Attendance(FILE *fp)
 
 {
     int deb = 60, flag = 0;
 
     int choice = 1, extra;
 
-    printHead();
+    SystemHeading();
 
     while (choice)
     {
@@ -1009,7 +1010,7 @@ void attendance(FILE *fp)
         switch (choice)
         {
         case 1:
-            createdebarred(fp, deb);
+            CreateDebarredList(fp, deb);
             printf("\n\n\t Press Any Key To Continue........................");
             getch();
             system("cls");
@@ -1018,21 +1019,21 @@ void attendance(FILE *fp)
         case 2:
             printf("\n\n\t\t\t Enter Number of Extra classes you can manage  - ");
             scanf("%d", &extra);
-            mercy(extra, deb);
+            Mercy(extra, deb);
             printf("\n\n\n\t\t Press Any Key To Continue........................");
             getch();
             system("cls");
             break;
 
         case 3:
-            saveall(deb);
+            SaveAll(deb);
             printf("\n\n\n\t\t Press Any Key To Continue........................");
             getch();
             system("cls");
             break;
 
         case 4:
-            saveplot(deb);
+            ExtraclassVsDebarred(deb);
             printf("\n\n\n\t\t Press Any Key To Continue........................");
             getch();
             system("cls");
@@ -1050,21 +1051,21 @@ void attendance(FILE *fp)
 }
 
 //************************ PLOTS NUMBER OF STUDENTS SAVED PER CLASS ADDED ************************
-void saveplot(int deb)
+void ExtraclassVsDebarred(int deb)
 {
     int i = 0;
 
     for (i = 0; i < 10; i++)
     {
-        mercy(i, deb);
+        Mercy(i, deb);
     }
 }
 
 //************************CALCULATE NUMBER OF EXTRA CLASSES REQUIRED TO SAVE EVERYONE ************************
-void saveall(int deb)
+void SaveAll(int deb)
 {
     NODE *temp2;
-    int countsaveall = 0;
+    int countSaveAll = 0;
     int lowest;
     temp = first;
     temp2 = temp;
@@ -1083,17 +1084,17 @@ void saveall(int deb)
         temp2->total += 1;
         temp2->p = (temp2->present) * 100;
         temp2->p = (temp2->p) / (temp2->total);
-        countsaveall++;
+        countSaveAll++;
     }
-    printf("\n\n\t Number of Extra Classes Required To Save Everyone = %d ", countsaveall);
-    temp2->present -= countsaveall;
-    temp2->total -= countsaveall;
+    printf("\n\n\t Number of Extra Classes Required To Save Everyone = %d ", countSaveAll);
+    temp2->present -= countSaveAll;
+    temp2->total -= countSaveAll;
     temp2->p = (temp2->present) * 100;
     temp2->p = (temp2->p) / (temp2->total);
 }
 
 //************************ SEE HOW MANY STUDENTS CAN BE SAVED FROM A GIVEN NUMBER OF EXTRA CLASSES ************************
-void mercy(int extra, int deb)
+void Mercy(int extra, int deb)
 {
 
     temp = first;
@@ -1114,7 +1115,7 @@ void mercy(int extra, int deb)
     }
     printf("\n\n\t Number of Students Saved From %d Extra Classes are %d ", extra, countsaved);
 }
-void createdebarred(FILE *fp, int deb)
+void CreateDebarredList(FILE *fp, int deb)
 {
     int countd = 0;
     Student s;
@@ -1149,10 +1150,10 @@ void createdebarred(FILE *fp, int deb)
 
 //************************ SEARCH FILE RECORD ************************
 
-void searchRecord(FILE *fp)
+void SearchStudentRecord(FILE *fp)
 
 {
-    printHead();
+    SystemHeading();
 
     int tempRoll, flag, siz, i;
 
@@ -1210,7 +1211,7 @@ void searchRecord(FILE *fp)
             printf("\n\n\t      ES = %d out of %d (Percentage = %d ) \n\t", s.es.present, s.es.total, s.es.p);
             printf("\n\n\t Physics = %d out of %d (Percentage = %d ) \n\t", s.physics.present, s.physics.total, s.physics.p);
 
-            printChar('-', 65);
+            PrintNTimes('-', 65);
         }
 
         else
