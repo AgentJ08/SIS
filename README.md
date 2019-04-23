@@ -8,7 +8,7 @@ With using many data structures like Structures, Linked Lists, etc.
 With all the functionalities of creating, accessing and modifying any student record.
 
 # Work Distribution: 
-Gaurav Yadav (Enrollment No.: 18103131, Github username: yadavgaurav251): Student Database Functions,Login Function ,Improving Readabilty 
+Gaurav Yadav (Enrollment No.: 18103131, Github username: yadavgaurav251): Student Database Functions,Login Function ,Improving Readabilty ,Debugging 
 
 Arpit Maheshwari (Enrollment No.: 18103125, Github username: AgentJ08): Easter Egg, Login Function , Team Leading ,Ideas 
 
