@@ -5,6 +5,18 @@
 #include<stdlib.h>
 
 #include<math.h>
+/*#include<conio.h>
+
+#include <windows.h>
+
+#include<ctype.h>
+
+#include<dos.h>
+
+#include<time.h>
+
+#include<stdbool.h>*/
+
 
 
 
